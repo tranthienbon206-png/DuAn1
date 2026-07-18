@@ -13,15 +13,15 @@
     <div class="container mt-3">
         <h1 class="text-center mb-5">Danh Sách Sản Phẩm</h1>
         <div class="row">
-        
+
             <?php
-         
+
             if (!isset($products)) {
                 $products = [
                     ['id' => 1, 'name' => 'Áo kiểu cổ bẻ tay', 'price' => 150000, 'image' => 'https://cdn.hstatic.net/products/200000503583/ao-linen-co-be__12__b045e2e8d11d43e79c18297502051546_1024x1024.jpg'],
                     ['id' => 2, 'name' => 'Áo cotton cổ tròn tay cộc dáng suông', 'price' => 250000, 'image' => 'https://cdn.hstatic.net/products/200000503583/ao-cotton-co-tron-tay-coc__3__3822b10c43d945819b4816fd54d4ba66_1024x1024.jpg'],
                     ['id' => 3, 'name' => 'Áo thun cotton tay cộc cổ tròn hình in trái cây', 'price' => 350000, 'image' => 'https://cdn.hstatic.net/products/200000503583/ao-thun-cotton-tay-coc__8__9374ebfac92042c097e4b64f218ee69f_1024x1024.jpg'],
-                    ['id' => 4, 'name' => 'Áo linen suông kiểu cổ và gấu kết ren', 'price' => 490,000, 'image' => 'https://cdn.hstatic.net/products/200000503583/ao-linen-kieu-co__1__9417a47a2505413caff7cdf8dfe3fbf1_1024x1024.jpg'],
+                    ['id' => 4, 'name' => 'Áo linen suông kiểu cổ và gấu kết ren', 'price' => 490, 000, 'image' => 'https://cdn.hstatic.net/products/200000503583/ao-linen-kieu-co__1__9417a47a2505413caff7cdf8dfe3fbf1_1024x1024.jpg'],
                 ];
             }
             ?>
@@ -56,4 +56,5 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
+
 </html>
