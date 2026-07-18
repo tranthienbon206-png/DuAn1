@@ -21,8 +21,8 @@
             <small>Free Shipping On Orders Over $50</small>
 
             <div>
-                <a href="#" class="text-white text-decoration-none me-3">Login</a>
-                <a href="#" class="text-white text-decoration-none">Register</a>
+                <a href="?action=login" class="text-white text-decoration-none me-3">Login</a>
+                <a href="?action=register" class="text-white text-decoration-none">Register</a>
             </div>
         </div>
     </div>
@@ -117,12 +117,12 @@
     </nav>
 
     <!-- Banner Placeholder -->
-    <div class="container py-5 text-center">
+    <!-- <div class="container py-5 text-center">
         <h2>Banner Here</h2>
         <p class="text-muted">
             Sau này thêm Carousel hoặc Banner quảng cáo.
         </p>
-    </div>
+    </div> -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 

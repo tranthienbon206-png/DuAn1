@@ -3,13 +3,14 @@ require_once 'controllers/HomeController.php';
 require_once 'controllers/ProductController.php';
 require_once 'controllers/OrderController.php';
 require_once 'controllers/CartController.php';
+require_once 'controllers/UserController.php';
 
-$page = $_GET['page'] ?? 'home';
+$page = $_GET['action'] ?? 'home';
 
 switch ($page) {
     case 'home':
         $controller = new HomeController();
-        $controller->index();
+        $controller->viewHome();
         break;
 
     case 'product':
@@ -24,7 +25,15 @@ switch ($page) {
 
     case 'cart':
         $controller = new CartController();
-        $controller->cart();
+        $controller->viewCart();
+        break;
+    case 'register':
+        $controller = new UserController();
+        $controller->register();
+        break;
+    case 'login':
+        $controller = new UserController();
+        $controller->login();
         break;
 
     default:
