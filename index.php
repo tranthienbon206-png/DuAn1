@@ -20,7 +20,7 @@ switch ($page) {
 
     case 'order':
         $controller = new OrderController();
-        $controller->order();
+        $controller->index();
         break;
 
     case 'cart':
