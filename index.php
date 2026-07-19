@@ -23,6 +23,11 @@ switch ($page) {
         $controller->index();
         break;
 
+    case 'contact':
+        $controller = new contactController();
+        $controller->index();
+        break;
+
     case 'cart':
         $controller = new CartController();
         $controller->viewCart();
