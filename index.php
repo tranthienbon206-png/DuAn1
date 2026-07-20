@@ -17,6 +17,11 @@ switch ($page) {
         $controller = new ProductController();
         $controller->product();
         break;
+    case 'product_detail':
+        $controller = new ProductController();
+        $id = $_GET['id'] ?? 0; 
+        $controller->detail($id);
+        break;
 
     case 'order':
         $controller = new OrderController();

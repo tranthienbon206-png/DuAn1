@@ -52,7 +52,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#">New Arrival</a>
+                        <a class="nav-link" href="?action=product">Product</a>
                     </li>
 
                     <li class="nav-item dropdown">
