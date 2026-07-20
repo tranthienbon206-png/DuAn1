@@ -1,3 +1,13 @@
+<?php
+
+function active($name)
+{
+    $action = $_GET['action'] ?? 'home';
+
+    return $action == $name ? 'active' : '';
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -48,11 +58,11 @@
                 <ul class="navbar-nav mx-auto">
 
                     <li class="nav-item">
-                        <a class="nav-link active" href="?action=home">Home</a>
+                        <a class="nav-link <?= active('home') ?>" href="?action=home">Home</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="?action=product">Product</a>
+                        <a class="nav-link <?= active('product') ?>" href="?action=product">Product</a>
                     </li>
 
                     <li class="nav-item dropdown">
@@ -76,11 +86,11 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Sale</a>
+                        <a class="nav-link <?= active('sale') ?>" href="?action=sale">Sale</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
+                        <a class="nav-link <?= active('contact') ?>" href="?action=contact">Contact</a>
                     </li>
 
                 </ul>
@@ -115,14 +125,6 @@
 
         </div>
     </nav>
-
-    <!-- Banner Placeholder -->
-    <!-- <div class="container py-5 text-center">
-        <h2>Banner Here</h2>
-        <p class="text-muted">
-            Sau này thêm Carousel hoặc Banner quảng cáo.
-        </p>
-    </div> -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 

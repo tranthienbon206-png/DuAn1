@@ -4,6 +4,7 @@ require_once 'controllers/ProductController.php';
 require_once 'controllers/OrderController.php';
 require_once 'controllers/CartController.php';
 require_once 'controllers/UserController.php';
+require_once 'controllers/ContactController.php';
 
 $page = $_GET['action'] ?? 'home';
 
@@ -36,6 +37,10 @@ switch ($page) {
     case 'cart':
         $controller = new CartController();
         $controller->viewCart();
+        break;
+    case 'contact':
+        $controller = new ContactController();
+        $controller->viewContact();
         break;
     case 'register':
         $controller = new UserController();
