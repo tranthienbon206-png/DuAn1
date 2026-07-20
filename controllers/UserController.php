@@ -1,12 +1,12 @@
 <?php
 class UserController {
-    public function login() {
-    include 'views/menuView.php';
-      include 'views/loginView.php';
-      include 'views/footerView.php';
+    public function viewLogin() {
+        include 'views/client/menuView.php';
+        include 'views/client/loginView.php';
+        include 'views/client/footerView.php';
     }
 
-    public function register() {
+    public function viewRegister() {
     
       include 'views/menuView.php';
       include 'views/registerView.php';
