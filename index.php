@@ -6,7 +6,11 @@ require_once 'controllers/ProductController.php';
 require_once 'controllers/OrderController.php';
 require_once 'controllers/CartController.php';
 require_once 'controllers/UserController.php';
-require_once 'controllers/contactController.php';
+require_once 'controllers/ContactController.php';
+require_once 'models/databaseModel.php';
+
+$db = new DatabaseModel();
+$connection = $db->connect();
 
 $page = $_GET['action'] ?? 'home';
 

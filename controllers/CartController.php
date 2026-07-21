@@ -1,9 +1,17 @@
 <?php
 
 class CartController {
-    public function Cart() {
-        include 'views/menuView.php';
-        include 'views/cartView.php';
-        include 'views/footerView.php';
+    private $db;
+
+    public function __construct($db) {
+        $this->db = $db;
+    }
+
+    public function viewCart() {     
+        $cartModel = new CartModel($this->db);
+        $data = $cartModel->getAll($user_id);
+        include 'views/client/menuView.php';
+        include 'views/client/cartView.php';
+        include 'views/client/footerView.php';
     }
 }
