@@ -1,10 +1,12 @@
 <?php
+session_start();
+
 require_once 'controllers/HomeController.php';
 require_once 'controllers/ProductController.php';
 require_once 'controllers/OrderController.php';
 require_once 'controllers/CartController.php';
 require_once 'controllers/UserController.php';
-require_once 'controllers/ContactController.php';
+require_once 'controllers/contactController.php';
 
 $page = $_GET['action'] ?? 'home';
 

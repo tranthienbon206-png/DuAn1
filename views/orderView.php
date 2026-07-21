@@ -1,19 +1,5 @@
-<!doctype html>
-<html lang="vi">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Đặt hàng</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-          crossorigin="anonymous">
-</head>
-
-<body class="bg-light">
-
-<div class="container py-5">
+<form action="index.php?action=order" method="post">
+    <div class="container py-5">
 
     <h2 class="text-center mb-4">Thanh Toán Đơn Hàng</h2>
 
@@ -31,22 +17,43 @@
 
                     <div class="mb-3">
                         <label class="form-label">Họ và tên</label>
-                        <input type="text" class="form-control" placeholder="Nhập họ tên">
+                        <input type="text" class="form-control" value="<?php if (isset($_POST['customer_name'])) echo $_POST['customer_name']; ?>" name="customer_name" placeholder="Nhập họ tên">
+                        <small class="text-danger"><?php
+                        if (isset($_SESSION['customer_name'])) {
+                            echo $_SESSION['customer_name'];
+                            unset($_SESSION['customer_name']);
+                        }?></small>
+                        
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Số điện thoại</label>
-                        <input type="text" class="form-control" placeholder="09xxxxxxxx">
+                        <input type="text" class="form-control" value="<?php if (isset($_POST['phone'])) echo $_POST['phone']; ?>"name="phone" placeholder="09xxxxxxxx">
+                        <small class="text-danger"><?php
+                        if (isset($_SESSION['phone'])) {
+                            echo $_SESSION['phone'];
+                            unset($_SESSION['phone']);
+                        }?></small>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Email</label>
-                        <input type="email" class="form-control">
+                        <input type="email" class="form-control" value="<?php if (isset($_POST['email'])) echo $_POST['email']; ?>" name="email">
+                        <small class="text-danger"><?php
+                        if (isset($_SESSION['email'])) {
+                            echo $_SESSION['email'];
+                            unset($_SESSION['email']);
+                        }?></small>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Địa chỉ nhận hàng</label>
-                        <textarea class="form-control" rows="3"></textarea>
+                        <textarea class="form-control" rows="3" name="address"><?php if (isset($_POST['address'])) echo $_POST['address']; ?></textarea>
+                        <small class="text-danger"><?php
+                        if (isset($_SESSION['address'])) {
+                            echo $_SESSION['address'];
+                            unset($_SESSION['address']);
+                        }?></small>
                     </div>
 
                 </div>
@@ -153,7 +160,7 @@
                         <strong class="text-danger">780.000đ</strong>
                     </div>
 
-                    <button class="btn btn-danger w-100 mt-4">
+                    <button type="submit" name="submit" value="Đặt hàng" class="btn btn-danger w-100 mt-4">
                         Đặt hàng
                     </button>
 
@@ -167,9 +174,4 @@
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"></script>
-
-</body>
-</html>
+</form>

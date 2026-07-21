@@ -86,5 +86,40 @@
 
 </footer>
 
+<li><a href="#" class="text-white">Products</a></li>
+
+<li><a href="#" class="text-white">Contact</a></li>
+
+</ul>
+
+</div>
+
+<div class="col-md-4">
+
+<h5>Contact</h5>
+
+<p>Email: fashion@gmail.com</p>
+
+<p>Phone: 0123456789</p>
+
+</div>
+
+</div>
+
+</div>
+
+</footer>
+
+    <!-- Banner Placeholder -->
+    <!-- <div class="container py-5 text-center">
+        <h2>Banner Here</h2>
+        <p class="text-muted">
+            Sau này thêm Carousel hoặc Banner quảng cáo.
+        </p>
+    </div> -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
+
 </html>
