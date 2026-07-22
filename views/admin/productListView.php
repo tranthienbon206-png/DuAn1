@@ -2,18 +2,8 @@
 
 /**
  * DANH SÁCH SẢN PHẨM (ADMIN)
- * File này CHỈ LÀ GIAO DIỆN (view). Chưa nối dữ liệu thật.
- * Sau này Controller sẽ truyền $products vào view này.
+ * Nhận $result (PDOStatement) từ AdminProductController::index()
  */
-
-// ----- DỮ LIỆU MẪU (sẽ thay bằng dữ liệu thật từ DB sau) -----
-$products = $products ?? [
-    ['id' => 1, 'name' => 'Cá hồi Na Uy phi lê',  'category' => 'Cá',   'price' => 300000, 'stock' => 42, 'status' => 'active'],
-    ['id' => 2, 'name' => 'Tôm sú size 20',        'category' => 'Tôm',  'price' => 250000, 'stock' => 15, 'status' => 'active'],
-    ['id' => 3, 'name' => 'Mực ống tươi',          'category' => 'Mực',  'price' => 200000, 'stock' => 0,  'status' => 'out_of_stock'],
-    ['id' => 4, 'name' => 'Cua hoàng đế',          'category' => 'Cua',  'price' => 800000, 'stock' => 8,  'status' => 'active'],
-    ['id' => 5, 'name' => 'Ngao hoa',              'category' => 'Ốc',   'price' => 90000,  'stock' => 60, 'status' => 'hidden'],
-];
 
 function formatMoney($number)
 {
@@ -132,12 +122,12 @@ function formatMoney($number)
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if (empty($products)): ?>
+                            <?php if ($result->rowCount() === 0): ?>
                                 <tr>
                                     <td colspan="7" class="text-center text-muted py-4">Chưa có sản phẩm nào.</td>
                                 </tr>
                             <?php else: ?>
-                                <?php foreach ($products as $product): ?>
+                                <?php while ($product = $result->fetch(PDO::FETCH_ASSOC)): ?>
                                     <?php
                                     $statusLabel = match ($product['status']) {
                                         'active'       => ['Đang bán', 'bg-success'],
@@ -153,7 +143,7 @@ function formatMoney($number)
                                         <td><?= formatMoney($product['price']) ?></td>
                                         <td>
                                             <?= $product['stock'] ?>
-                                            <?php if ($product['stock'] === 0): ?>
+                                            <?php if ((int) $product['stock'] === 0): ?>
                                                 <i class="bi bi-exclamation-triangle-fill text-danger ms-1" title="Hết hàng"></i>
                                             <?php endif; ?>
                                         </td>
@@ -189,7 +179,7 @@ function formatMoney($number)
                                             </div>
                                         </div>
                                     </div>
-                                <?php endforeach; ?>
+                                <?php endwhile; ?>
                             <?php endif; ?>
                         </tbody>
                     </table>

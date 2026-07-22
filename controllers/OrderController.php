@@ -31,7 +31,10 @@ class orderController
             if ($address == "") {
                 $_SESSION['address'] = "Bạn chưa nhập địa chỉ";
             }
-
+            
+            $themMoi = new orderModel();
+            $themMoi->themMoi(1, $customerName, 1, $address, $phone );
+            
             // header("Location: index.php?action=order");
             // exit;
         }

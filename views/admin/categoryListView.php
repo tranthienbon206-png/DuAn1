@@ -2,7 +2,7 @@
 
 /**
  * DANH SÁCH DANH MỤC (ADMIN)
- * File này CHỈ LÀ GIAO DIỆN (view). Chưa nối dữ liệu thật.
+ * Nhận $result (PDOStatement) từ AdminCategoryController::index()
  */
 
 // $categories = $categories ?? [
@@ -84,28 +84,46 @@
                             <tr>
                                 <th>#</th>
                                 <th>Tên danh mục</th>
-                                <th>Số sản phẩm</th>
                                 <th>Trạng thái</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if (empty($categories)): ?>
+                            <?php if ($result->rowCount() === 0): ?>
                                 <tr>
                                     <td colspan="4" class="text-center text-muted py-4">Chưa có danh mục nào.</td>
                                 </tr>
                             <?php else: ?>
-                                <?php foreach ($categories as $cat): ?>
+                                <?php while ($cat = $result->fetch(PDO::FETCH_ASSOC)): ?>
                                     <tr>
                                         <td>#<?= $cat['id'] ?></td>
                                         <td><?= htmlspecialchars($cat['name']) ?></td>
-                                        <td><?= $cat['productCount'] ?></td>
                                         <td>
                                             <span class="badge <?= $cat['status'] === 'active' ? 'bg-success' : 'bg-secondary' ?>">
                                                 <?= $cat['status'] === 'active' ? 'Đang hiện' : 'Đang ẩn' ?>
                                             </span>
                                         </td>
                                     </tr>
-                                <?php endforeach; ?>
+
+                                    <!-- Modal xác nhận xóa -->
+                                    <div class="modal fade" id="deleteCat<?= $cat['id'] ?>" tabindex="-1">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Xác nhận xóa</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Bạn có chắc muốn xóa danh mục
+                                                    <strong><?= htmlspecialchars($cat['name']) ?></strong> không?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                                    <a href="?action=admin_category_delete&id=<?= $cat['id'] ?>" class="btn btn-danger">Xóa</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endwhile; ?>
                             <?php endif; ?>
                         </tbody>
                     </table>
