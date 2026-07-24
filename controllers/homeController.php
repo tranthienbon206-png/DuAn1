@@ -1,7 +1,7 @@
 <?php
 
 class HomeController {
-    public function Home() {
+    public function viewHome() {
         include 'views/menuView.php';
         include 'views/homeView.php';
         include 'views/footerView.php';

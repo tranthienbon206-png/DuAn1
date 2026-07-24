@@ -85,22 +85,7 @@
     </div>
 
 </footer>
-
-<li><a href="#" class="text-white">Products</a></li>
-
-<li><a href="#" class="text-white">Contact</a></li>
-
 </ul>
-
-</div>
-
-<div class="col-md-4">
-
-<h5>Contact</h5>
-
-<p>Email: fashion@gmail.com</p>
-
-<p>Phone: 0123456789</p>
 
 </div>
 
