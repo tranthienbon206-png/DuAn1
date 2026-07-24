@@ -8,6 +8,7 @@ require_once 'controllers/CartController.php';
 require_once 'controllers/UserController.php';
 require_once 'controllers/ContactController.php';
 require_once 'models/databaseModel.php';
+require_once 'models/orderModel.php';
 
 $db = new DatabaseModel();
 $connection = $db->connect();
@@ -17,7 +18,7 @@ $page = $_GET['action'] ?? 'home';
 switch ($page) {
     case 'home':
         $controller = new HomeController();
-        $controller->viewHome();
+        $controller->Home();
         break;
 
     case 'product':
@@ -31,7 +32,7 @@ switch ($page) {
         break;
 
     case 'order':
-        $controller = new OrderController();
+        $controller = new orderController();
         $controller->index();
         break;
 
@@ -46,7 +47,7 @@ switch ($page) {
         break;
     case 'contact':
         $controller = new ContactController();
-        $controller->viewContact();
+        $controller->index();
         break;
     case 'register':
         $controller = new UserController();
@@ -71,7 +72,9 @@ switch ($page) {
         include 'views/admin/productFormView.php';
         break;
     case 'admin_orders':
-        include 'views/admin/orderListView.php';
+        require_once 'controllers/admin/orderController.php';
+        $controller = new AdminOrderController();
+        $controller->index();
         break;
     case 'admin_categories':
         include 'views/admin/categoryListView.php';

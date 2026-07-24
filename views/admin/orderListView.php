@@ -2,20 +2,19 @@
 
 /**
  * DANH SÁCH ĐƠN HÀNG (ADMIN)
- * File này CHỈ LÀ GIAO DIỆN (view). Chưa nối dữ liệu thật.
  */
 
-$orders = $orders ?? [
-    ['id' => 1024, 'customer' => 'Nguyễn Văn A', 'date' => '2026-07-20', 'total' => 850000,  'status' => 'processing'],
-    ['id' => 1023, 'customer' => 'Trần Thị B',   'date' => '2026-07-19', 'total' => 420000,  'status' => 'delivered'],
-    ['id' => 1022, 'customer' => 'Lê Văn C',     'date' => '2026-07-19', 'total' => 1250000, 'status' => 'delivered'],
-    ['id' => 1021, 'customer' => 'Phạm Thị D',   'date' => '2026-07-18', 'total' => 300000,  'status' => 'cancelled'],
-    ['id' => 1020, 'customer' => 'Hoàng Văn E',  'date' => '2026-07-18', 'total' => 675000,  'status' => 'processing'],
-];
+if (!isset($orders)) {
+    require_once __DIR__ . '/../../models/databaseModel.php';
+    require_once __DIR__ . '/../../models/orderModel.php';
+
+    $orderModel = new Order();
+    $orders = $orderModel->getAll();
+}
 
 function formatMoney($number)
 {
-    return number_format($number, 0, ',', '.') . ' đ';
+    return number_format((float) $number, 0, ',', '.') . ' đ';
 }
 ?>
 <!DOCTYPE html>
@@ -126,18 +125,23 @@ function formatMoney($number)
                             <?php else: ?>
                                 <?php foreach ($orders as $order): ?>
                                     <?php
-                                    $statusLabel = match ($order['status']) {
-                                        'delivered'  => ['Đã giao', 'bg-success'],
-                                        'cancelled'  => ['Đã hủy', 'bg-danger'],
-                                        'processing' => ['Đang xử lý', 'bg-warning text-dark'],
-                                        default      => ['Không rõ', 'bg-secondary'],
+                                    $customer = $order['customer_name'] ?? $order['customer'] ?? $order['fullname'] ?? $order['name'] ?? 'Không rõ';
+                                    $orderDate = $order['created_at'] ?? $order['order_date'] ?? $order['date'] ?? '';
+                                    $total = $order['total'] ?? $order['total_amount'] ?? $order['amount'] ?? 0;
+                                    $statusKey = strtolower((string) ($order['status'] ?? 'processing'));
+
+                                    $statusLabel = match ($statusKey) {
+                                        'delivered', 'completed', 'done', 'success' => ['Đã giao', 'bg-success'],
+                                        'cancelled', 'canceled', 'rejected' => ['Đã hủy', 'bg-danger'],
+                                        'processing', 'pending', 'waiting', 'shipping' => ['Đang xử lý', 'bg-warning text-dark'],
+                                        default => ['Không rõ', 'bg-secondary'],
                                     };
                                     ?>
                                     <tr>
                                         <td>#<?= $order['id'] ?></td>
-                                        <td><?= htmlspecialchars($order['customer']) ?></td>
-                                        <td><?= $order['date'] ?></td>
-                                        <td><?= formatMoney($order['total']) ?></td>
+                                        <td><?= htmlspecialchars($customer) ?></td>
+                                        <td><?= htmlspecialchars($orderDate) ?></td>
+                                        <td><?= formatMoney($total) ?></td>
                                         <td><span class="badge <?= $statusLabel[1] ?>"><?= $statusLabel[0] ?></span></td>
                                         <td class="text-end">
                                             <a href="?action=admin_order_detail&id=<?= $order['id'] ?>"
