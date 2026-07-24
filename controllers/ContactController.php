@@ -30,6 +30,8 @@ class contactController {
             }
         }
 
+        include 'views/menuView.php';
         include 'views/contactView.php';
+        include 'views/footerView.php';
     }
 }

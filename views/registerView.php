@@ -2,119 +2,162 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
-
 </head>
 
 <body class="bg-light">
 
-<div class="container">
+    <div class="container py-5">
 
-<div class="row justify-content-center py-5">
+        <div class="row justify-content-center">
 
-<div class="col-md-6">
+            <div class="col-lg-5 col-md-7">
 
-<div class="card shadow border-0">
+                <div class="card shadow">
 
-<div class="card-body p-5">
+                    <div class="card-body p-4">
 
-<h2 class="text-center fw-bold mb-4">
-Register
-</h2>
+                        <h2 class="text-center mb-4">
+                            Đăng ký
+                        </h2>
 
-<form>
+                        <form action="?action=register" method="POST">
 
-<div class="mb-3">
+                            <!-- Name -->
+                            <div class="mb-3">
+                                <label class="form-label">Họ tên</label>
 
-<label>Full Name</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="name"
+                                    value="<?= $_POST['name'] ?? '' ?>">
 
-<input
-type="text"
-class="form-control"
-placeholder="Your Name">
+                                <?php if(isset($_SESSION['register_name'])): ?>
+                                    <small class="text-danger">
+                                        <?= $_SESSION['register_name']; ?>
+                                    </small>
+                                    <?php unset($_SESSION['register_name']); ?>
+                                <?php endif; ?>
+                            </div>
 
-</div>
+                            <!-- Email -->
+                            <div class="mb-3">
+                                <label class="form-label">Email</label>
 
-<div class="mb-3">
+                                <input
+                                    type="email"
+                                    class="form-control"
+                                    name="email"
+                                    value="<?= $_POST['email'] ?? '' ?>">
 
-<label>Email</label>
+                                <?php if(isset($_SESSION['register_email'])): ?>
+                                    <small class="text-danger">
+                                        <?= $_SESSION['register_email']; ?>
+                                    </small>
+                                    <?php unset($_SESSION['register_email']); ?>
+                                <?php endif; ?>
+                            </div>
 
-<input
-type="email"
-class="form-control"
-placeholder="Your Email">
+                            <!-- Password -->
+                            <div class="mb-3">
+                                <label class="form-label">Mật khẩu</label>
 
-</div>
+                                <input
+                                    type="password"
+                                    class="form-control"
+                                    name="password">
 
-<div class="mb-3">
+                                <?php if(isset($_SESSION['register_password'])): ?>
+                                    <small class="text-danger">
+                                        <?= $_SESSION['register_password']; ?>
+                                    </small>
+                                    <?php unset($_SESSION['register_password']); ?>
+                                <?php endif; ?>
+                            </div>
 
-<label>Phone</label>
+                            <!-- Confirm Password -->
+                            <div class="mb-3">
+                                <label class="form-label">Xác nhận mật khẩu</label>
 
-<input
-type="text"
-class="form-control"
-placeholder="Phone Number">
+                                <input
+                                    type="password"
+                                    class="form-control"
+                                    name="confirm_password">
 
-</div>
+                                <?php if(isset($_SESSION['register_confirm'])): ?>
+                                    <small class="text-danger">
+                                        <?= $_SESSION['register_confirm']; ?>
+                                    </small>
+                                    <?php unset($_SESSION['register_confirm']); ?>
+                                <?php endif; ?>
+                            </div>
 
-<div class="mb-3">
+                            <!-- Address -->
+                            <div class="mb-3">
+                                <label class="form-label">Địa chỉ</label>
 
-<label>Password</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="address"
+                                    value="<?= $_POST['address'] ?? '' ?>">
 
-<input
-type="password"
-class="form-control"
-placeholder="Password">
+                                <?php if(isset($_SESSION['register_address'])): ?>
+                                    <small class="text-danger">
+                                        <?= $_SESSION['register_address']; ?>
+                                    </small>
+                                    <?php unset($_SESSION['register_address']); ?>
+                                <?php endif; ?>
+                            </div>
 
-</div>
+                            <!-- Phone -->
+                            <div class="mb-3">
+                                <label class="form-label">Số điện thoại</label>
 
-<div class="mb-3">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="phone"
+                                    value="<?= $_POST['phone'] ?? '' ?>">
 
-<label>Confirm Password</label>
+                                <?php if(isset($_SESSION['register_phone'])): ?>
+                                    <small class="text-danger">
+                                        <?= $_SESSION['register_phone']; ?>
+                                    </small>
+                                    <?php unset($_SESSION['register_phone']); ?>
+                                <?php endif; ?>
+                            </div>
 
-<input
-type="password"
-class="form-control"
-placeholder="Confirm Password">
+                            <button class="btn btn-dark w-100">
+                                Đăng ký
+                            </button>
 
-</div>
+                        </form>
 
-<button class="btn btn-dark w-100">
-Create Account
-</button>
+                        <hr>
 
-</form>
+                        <p class="text-center mb-0">
+                            Đã có tài khoản?
 
-<hr>
+                            <a href="?action=login">
+                                Đăng nhập
+                            </a>
+                        </p>
 
-<p class="text-center">
+                    </div>
 
-Already have an account?
+                </div>
 
-<a href="login.html">
-Login
-</a>
+            </div>
 
-</p>
+        </div>
 
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
+    </div>
 
 </body>
 

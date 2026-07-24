@@ -1,5 +1,9 @@
 <?php
+
+session_start();
+
 require_once 'controllers/AdminProductController.php';
+require_once 'models/databaseModel.php';
 require_once 'controllers/HomeController.php';
 require_once 'controllers/ProductController.php';
 require_once 'controllers/OrderController.php';
@@ -16,15 +20,19 @@ $connection = $db->connect();
 $page = $_GET['action'] ?? 'home';
 
 switch ($page) {
+
+    // ===========================
+    // CLIENT
+    // ===========================
+
     case 'home':
-        $controller = new HomeController();
-        $controller->Home();
+        (new HomeController())->viewHome();
         break;
 
     case 'product':
-        $controller = new ProductController($connection);
-        $controller->product();
+        (new ProductController())->product();
         break;
+
     case 'product_detail':
         $controller = new ProductController($connection);
         $id = $_GET['id'] ?? 0;
@@ -40,20 +48,35 @@ switch ($page) {
         $controller = new CartController($connection);
         $controller->viewCart();
         break;
-    case 'contact':
-        $controller = new ContactController();
-        $controller->index();
-        break;
-    case 'register':
-        $controller = new UserController();
-        $controller->viewRegister();
-        break;
-    case 'login':
-        $controller = new UserController();
-        $controller->viewLogin();
+
+    case 'order':
+        (new OrderController())->index();
         break;
 
-    // ===== ADMIN =====
+    case 'contact':
+        (new ContactController())->viewContact();
+        break;
+
+    // ===========================
+    // USER
+    // ===========================
+
+    case 'register':
+        (new UserController())->viewRegister();
+        break;
+
+    case 'login':
+        (new UserController())->viewLogin();
+        break;
+
+    case 'logout':
+        (new UserController())->logout();
+        break;
+
+    // ===========================
+    // ADMIN VIEW
+    // ===========================
+
     case 'dashboard':
         include 'views/admin/dashboardView.php';
         break;
@@ -61,23 +84,27 @@ switch ($page) {
     case 'admin_products':
         include 'views/admin/productListView.php';
         break;
+
     case 'admin_product_add':
-        include 'views/admin/productFormView.php';   // không truyền $product -> form trống
-        break;
-    case 'admin_product_edit':
-        // sau này: lấy sản phẩm theo $_GET['id'] từ DB rồi gán vào $product trước khi include
         include 'views/admin/productFormView.php';
         break;
+
+    case 'admin_product_edit':
+        include 'views/admin/productFormView.php';
+        break;
+
     case 'admin_orders':
         require_once 'controllers/admin/orderController.php';
         $controller = new AdminOrderController();
         $controller->index();
         break;
+
     case 'admin_categories':
         require_once 'controllers/admin/categoryController.php';
         $controller = new AdminCategoryController();
         $controller->index();
         break;
+
     case 'admin_category_add':
         require_once 'controllers/admin/categoryController.php';
         $controller = new AdminCategoryController();
@@ -87,8 +114,8 @@ switch ($page) {
     case 'admin_users':
         include 'views/admin/userListView.php';
         break;
+
     case 'admin_user_edit':
-        // sau này: lấy user theo $_GET['id'] từ DB rồi gán vào $user trước khi include
         include 'views/admin/userFormView.php';
         $controller = new AdminProductController($connection);
         $controller->index();
@@ -146,6 +173,6 @@ switch ($page) {
     //     break;
 
     default:
-        echo "Page not found";
+        echo "<h2>404 - Page Not Found</h2>";
         break;
 }
