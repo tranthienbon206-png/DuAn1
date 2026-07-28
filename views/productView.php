@@ -116,9 +116,8 @@
                                 <form action="?action=cart_add" method="POST">
                                     <input type="hidden" name="id" value="<?php echo $product['id']; ?>">
                                     <input type="hidden" name="quantity" value="1">
-
-                                    <button type="submit" class="btn btn-outline-danger w-100 fw-bold py-2">
-                                        Thêm vào giỏ
+                                    <button type="submit" class="btn btn-danger w-100">
+                                        <i class="bi bi-cart-plus me-1"></i>Thêm vào giỏ
                                     </button>
                                 </form>
                             </div>

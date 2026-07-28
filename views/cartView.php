@@ -1,198 +1,127 @@
+<?php
+// $cartItems và $total được CartController truyền vào trước khi require file này
+?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Cart</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <title>Giỏ hàng</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </head>
-
 <body class="bg-light">
-
+<?php include 'views/headerView.php'; ?>
 <div class="container py-5">
+    <h2 class="mb-4 fw-bold"><i class="bi bi-cart3 me-2"></i>Giỏ hàng của bạn</h2>
 
-    <h2 class="fw-bold mb-4">
-        <i class="bi bi-cart3"></i>
-        Shopping Cart
-    </h2>
+    <?php if (empty($cartItems)): ?>
 
-    <div class="row">
-
-        <!-- Product List -->
-        <div class="col-lg-8">
-
-            <div class="card shadow-sm border-0">
-
-                <div class="card-body">
-
-                    <!-- Item -->
-                    <div class="row align-items-center border-bottom py-3">
-
-                        <div class="col-md-2">
-                            <img src="https://picsum.photos/100"
-                                class="img-fluid rounded">
-                        </div>
-
-                        <div class="col-md-4">
-                            <h5>Wireless Headphone</h5>
-                            <small class="text-muted">
-                                Color: Black
-                            </small>
-                        </div>
-
-                        <div class="col-md-2">
-                            <div class="input-group">
-
-                                <button class="btn btn-outline-secondary">
-                                    -
-                                </button>
-
-                                <input type="text"
-                                    class="form-control text-center"
-                                    value="1">
-
-                                <button class="btn btn-outline-secondary">
-                                    +
-                                </button>
-
-                            </div>
-                        </div>
-
-                        <div class="col-md-2 text-center">
-                            <strong>$120</strong>
-                        </div>
-
-                        <div class="col-md-2 text-end">
-                            <button class="btn btn-outline-danger">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </div>
-
-                    </div>
-
-                    <!-- Item -->
-                    <div class="row align-items-center border-bottom py-3">
-
-                        <div class="col-md-2">
-                            <img src="https://picsum.photos/101"
-                                class="img-fluid rounded">
-                        </div>
-
-                        <div class="col-md-4">
-                            <h5>Smart Watch</h5>
-                            <small class="text-muted">
-                                Color: Silver
-                            </small>
-                        </div>
-
-                        <div class="col-md-2">
-                            <div class="input-group">
-
-                                <button class="btn btn-outline-secondary">
-                                    -
-                                </button>
-
-                                <input type="text"
-                                    class="form-control text-center"
-                                    value="2">
-
-                                <button class="btn btn-outline-secondary">
-                                    +
-                                </button>
-
-                            </div>
-                        </div>
-
-                        <div class="col-md-2 text-center">
-                            <strong>$240</strong>
-                        </div>
-
-                        <div class="col-md-2 text-end">
-                            <button class="btn btn-outline-danger">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
+        <div class="text-center py-5 bg-white rounded-3 shadow-sm">
+            <i class="bi bi-cart-x display-1 text-secondary"></i>
+            <p class="text-muted fs-5 mt-3">Giỏ hàng đang trống.</p>
+            <a href="index.php?action=product" class="btn btn-primary mt-2">
+                <i class="bi bi-bag-plus me-1"></i>Tiếp tục mua sắm
+            </a>
         </div>
 
-        <!-- Summary -->
-        <div class="col-lg-4">
+    <?php else: ?>
 
-            <div class="card shadow-sm border-0">
-
-                <div class="card-body">
-
-                    <h4 class="mb-4">
-                        Order Summary
-                    </h4>
-
-                    <div class="d-flex justify-content-between mb-3">
-                        <span>Subtotal</span>
-                        <strong>$360</strong>
+        <div class="row g-4">
+            <!-- Danh sách sản phẩm -->
+            <div class="col-lg-8">
+                <div class="card shadow-sm border-0">
+                    <div class="table-responsive">
+                        <table class="table align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="ps-3">Sản phẩm</th>
+                                    <th class="text-center">Đơn giá</th>
+                                    <th class="text-center" style="width:140px">Số lượng</th>
+                                    <th class="text-end">Thành tiền</th>
+                                    <th class="text-center"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($cartItems as $item): ?>
+                                <tr>
+                                    <td class="ps-3">
+                                        <div class="d-flex align-items-center gap-3">
+                                            <img src="<?= htmlspecialchars($item['image'] ?? 'assets/img/no-image.png') ?>"
+                                                 alt="<?= htmlspecialchars($item['name']) ?>"
+                                                 class="rounded"
+                                                 style="width:64px;height:64px;object-fit:cover;">
+                                            <span class="fw-semibold"><?= htmlspecialchars($item['name']) ?></span>
+                                        </div>
+                                    </td>
+                                    <td class="text-center text-muted">
+                                        <?= number_format($item['price']) ?>đ
+                                    </td>
+                                    <td class="text-center">
+                                        <form action="index.php?action=cart_update" method="POST" class="d-inline">
+                                            <input type="hidden" name="cart_id" value="<?= $item['cart_id'] ?>">
+                                            <div class="input-group input-group-sm">
+                                                <input type="number" name="qty" value="<?= $item['quantity'] ?>"
+                                                       min="1" class="form-control text-center"
+                                                       onchange="this.form.submit()">
+                                                <button type="submit" class="btn btn-outline-secondary">
+                                                    <i class="bi bi-arrow-repeat"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </td>
+                                    <td class="text-end fw-bold text-danger">
+                                        <?= number_format($item['price'] * $item['quantity']) ?>đ
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="index.php?action=cart_remove&cart_id=<?= $item['cart_id'] ?>"
+                                           class="btn btn-sm btn-outline-danger"
+                                           onclick="return confirm('Xóa sản phẩm này khỏi giỏ hàng?')">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
                     </div>
-
-                    <div class="d-flex justify-content-between mb-3">
-                        <span>Shipping</span>
-                        <strong>$10</strong>
-                    </div>
-
-                    <div class="d-flex justify-content-between mb-3">
-                        <span>Discount</span>
-                        <strong class="text-success">-$20</strong>
-                    </div>
-
-                    <hr>
-
-                    <div class="d-flex justify-content-between mb-4">
-
-                        <h5>Total</h5>
-
-                        <h5 class="text-danger">
-                            $350
-                        </h5>
-
-                    </div>
-
-                    <input
-                        class="form-control mb-3"
-                        placeholder="Coupon Code">
-
-                    <button class="btn btn-outline-primary w-100 mb-3">
-                        Apply Coupon
-                    </button>
-
-                    <button class="btn btn-success w-100">
-                        Proceed to Checkout
-                    </button>
-
                 </div>
 
+                <a href="index.php?action=product" class="btn btn-link mt-3 ps-0">
+                    <i class="bi bi-arrow-left me-1"></i>Tiếp tục mua sắm
+                </a>
             </div>
 
+            <!-- Tóm tắt đơn hàng -->
+            <div class="col-lg-4">
+                <div class="card shadow-sm border-0 sticky-top" style="top: 20px;">
+                    <div class="card-body p-4">
+                        <h5 class="card-title fw-bold mb-4">Tóm tắt đơn hàng</h5>
+
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Tạm tính</span>
+                            <span><?= number_format($total) ?>đ</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3">
+                            <span class="text-muted">Phí vận chuyển</span>
+                            <span class="text-success">Miễn phí</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between mb-4">
+                            <span class="fw-bold fs-5">Tổng cộng</span>
+                            <span class="fw-bold fs-5 text-danger"><?= number_format($total) ?>đ</span>
+                        </div>
+
+                        <a href="index.php?action=order" class="btn btn-primary w-100 py-2">
+                            <i class="bi bi-credit-card me-1"></i>Tiến hành thanh toán
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
 
-    </div>
-
-    <div class="mt-4">
-
-        <a href="#" class="btn btn-outline-dark">
-            <i class="bi bi-arrow-left"></i>
-            Continue Shopping
-        </a>
-
-    </div>
-
+    <?php endif; ?>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
-
+<?php include 'views/footerView.php'; ?>
 </body>
 </html>

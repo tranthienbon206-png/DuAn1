@@ -6,6 +6,8 @@ function active($name)
 
     return $action == $name ? 'active' : '';
 }
+
+$isLoggedIn = isset($_SESSION['user']);
 ?>
 
 <!DOCTYPE html>
@@ -31,8 +33,18 @@ function active($name)
             <small>Free Shipping On Orders Over $50</small>
 
             <div>
-                <a href="?action=login" class="text-white text-decoration-none me-3">Login</a>
-                <a href="?action=register" class="text-white text-decoration-none">Register</a>
+                <?php if ($isLoggedIn): ?>
+                    <span class="text-white me-3">
+                        <i class="bi bi-person-fill me-1"></i>
+                        Xin chào, <strong><?= htmlspecialchars($_SESSION['user']['name']) ?></strong>
+                    </span>
+                    <a href="?action=logout" class="text-white text-decoration-none">
+                        <i class="bi bi-box-arrow-right me-1"></i>Đăng xuất
+                    </a>
+                <?php else: ?>
+                    <a href="?action=login" class="text-white text-decoration-none me-3">Login</a>
+                    <a href="?action=register" class="text-white text-decoration-none">Register</a>
+                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -115,9 +127,30 @@ function active($name)
                         <i class="bi bi-cart3"></i>
                     </a>
 
-                    <a href="#" class="text-dark fs-5">
-                        <i class="bi bi-person-circle"></i>
-                    </a>
+                    <?php if ($isLoggedIn): ?>
+                        <div class="dropdown">
+                            <a href="#" class="text-dark fs-5 dropdown-toggle text-decoration-none"
+                               id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-circle"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+                                <li>
+                                    <span class="dropdown-item-text fw-bold">
+                                        <?= htmlspecialchars($_SESSION['user']['name']) ?>
+                                    </span>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="?action=profile"><i class="bi bi-person me-2"></i>Tài khoản</a></li>
+                                <li><a class="dropdown-item" href="?action=order"><i class="bi bi-bag-check me-2"></i>Đơn hàng của tôi</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-danger" href="?action=logout"><i class="bi bi-box-arrow-right me-2"></i>Đăng xuất</a></li>
+                            </ul>
+                        </div>
+                    <?php else: ?>
+                        <a href="?action=login" class="text-dark fs-5">
+                            <i class="bi bi-person-circle"></i>
+                        </a>
+                    <?php endif; ?>
 
                 </div>
 

@@ -44,9 +44,24 @@ switch ($page) {
         $controller->index();
         break;
 
-    case 'cart':
+case 'cart':
         $controller = new CartController($connection);
         $controller->viewCart();
+        break;
+
+    case 'cart_add':
+        $controller = new CartController($connection);
+        $controller->addToCart();
+        break;
+
+    case 'cart_update':
+        $controller = new CartController($connection);
+        $controller->updateCart();
+        break;
+
+    case 'cart_remove':
+        $controller = new CartController($connection);
+        $controller->removeFromCart();
         break;
 
     case 'order':
