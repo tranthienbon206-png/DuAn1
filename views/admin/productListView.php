@@ -1,10 +1,5 @@
 <?php
 
-/**
- * DANH SÁCH SẢN PHẨM (ADMIN)
- * Nhận $result (PDOStatement) từ AdminProductController::index()
- */
-
 function formatMoney($number)
 {
     return number_format($number, 0, ',', '.') . ' đ';
@@ -44,7 +39,6 @@ function formatMoney($number)
                         <i class="bi bi-box-seam me-2"></i> Sản phẩm
                     </a>
                 </li>
-
                 <li class="nav-item">
                     <a href="?action=admin_orders" class="nav-link link-dark">
                         <i class="bi bi-receipt me-2"></i> Đơn hàng
@@ -73,39 +67,6 @@ function formatMoney($number)
                 </a>
             </div>
 
-            <!-- ===== THANH TÌM KIẾM / LỌC ===== -->
-            <div class="card shadow-sm p-3 mb-3">
-                <form class="row g-2" method="get">
-                    <input type="hidden" name="action" value="admin_products">
-                    <div class="col-md-5">
-                        <input type="text" name="keyword" class="form-control" placeholder="Tìm theo tên sản phẩm...">
-                    </div>
-                    <div class="col-md-3">
-                        <select name="category" class="form-select">
-                            <option value="">-- Tất cả danh mục --</option>
-                            <option value="Cá">Cá</option>
-                            <option value="Tôm">Tôm</option>
-                            <option value="Mực">Mực</option>
-                            <option value="Cua">Cua</option>
-                            <option value="Ốc">Ốc</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <select name="status" class="form-select">
-                            <option value="">-- Trạng thái --</option>
-                            <option value="active">Đang bán</option>
-                            <option value="hidden">Đang ẩn</option>
-                            <option value="out_of_stock">Hết hàng</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2 d-grid">
-                        <button type="submit" class="btn btn-outline-secondary">
-                            <i class="bi bi-search me-1"></i> Lọc
-                        </button>
-                    </div>
-                </form>
-            </div>
-
             <!-- ===== BẢNG SẢN PHẨM ===== -->
             <div class="card shadow-sm p-3">
                 <div class="table-responsive">
@@ -116,7 +77,6 @@ function formatMoney($number)
                                 <th>Tên sản phẩm</th>
                                 <th>Danh mục</th>
                                 <th>Giá</th>
-                                <th>Tồn kho</th>
                                 <th>Trạng thái</th>
                                 <th class="text-end">Thao tác</th>
                             </tr>
@@ -124,30 +84,23 @@ function formatMoney($number)
                         <tbody>
                             <?php if ($result->rowCount() === 0): ?>
                                 <tr>
-                                    <td colspan="7" class="text-center text-muted py-4">Chưa có sản phẩm nào.</td>
+                                    <td colspan="6" class="text-center text-muted py-4">Chưa có sản phẩm nào.</td>
                                 </tr>
                             <?php else: ?>
                                 <?php while ($product = $result->fetch(PDO::FETCH_ASSOC)): ?>
-                                    <?php
-                                    $statusLabel = match ($product['status']) {
-                                        'active'       => ['Đang bán', 'bg-success'],
-                                        'hidden'       => ['Đang ẩn', 'bg-secondary'],
-                                        'out_of_stock' => ['Hết hàng', 'bg-danger'],
-                                        default        => ['Không rõ', 'bg-secondary'],
-                                    };
-                                    ?>
                                     <tr>
                                         <td>#<?= $product['id'] ?></td>
                                         <td><?= htmlspecialchars($product['name']) ?></td>
-                                        <td><?= htmlspecialchars($product['category']) ?></td>
-                                        <td><?= formatMoney($product['price']) ?></td>
+                                        <td><?= htmlspecialchars($product['category_name']) ?></td>
                                         <td>
-                                            <?= $product['stock'] ?>
-                                            <?php if ((int) $product['stock'] === 0): ?>
-                                                <i class="bi bi-exclamation-triangle-fill text-danger ms-1" title="Hết hàng"></i>
+                                            <?php if ($product['sale_price'] > 0): ?>
+                                                <span class="text-danger fw-bold"><?= formatMoney($product['sale_price']) ?></span>
+                                                <span class="text-muted text-decoration-line-through small ms-1"><?= formatMoney($product['price']) ?></span>
+                                            <?php else: ?>
+                                                <?= formatMoney($product['price']) ?>
                                             <?php endif; ?>
                                         </td>
-                                        <td><span class="badge <?= $statusLabel[1] ?>"><?= $statusLabel[0] ?></span></td>
+                                        <td><?= htmlspecialchars($product['status']) ?></td>
                                         <td class="text-end">
                                             <a href="?action=admin_product_edit&id=<?= $product['id'] ?>"
                                                 class="btn btn-sm btn-outline-primary" title="Sửa">
@@ -184,16 +137,6 @@ function formatMoney($number)
                         </tbody>
                     </table>
                 </div>
-
-                <!-- ===== PHÂN TRANG ===== -->
-                <nav class="mt-3">
-                    <ul class="pagination justify-content-end mb-0">
-                        <li class="page-item disabled"><a class="page-link" href="#">Trước</a></li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Sau</a></li>
-                    </ul>
-                </nav>
             </div>
 
         </main>

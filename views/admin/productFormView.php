@@ -2,23 +2,10 @@
 
 /**
  * FORM THÊM / SỬA SẢN PHẨM (ADMIN)
- * File này CHỈ LÀ GIAO DIỆN (view). Chưa nối dữ liệu / xử lý lưu thật.
- *
- * Cách dùng chung cho 2 chức năng:
- * - Thêm mới: Controller include file này mà KHÔNG truyền $product -> form trống.
- * - Sửa: Controller lấy sản phẩm theo $id từ DB, gán vào $product rồi include file này -> form tự điền sẵn dữ liệu.
+ * Nhận $product (mảng, có thể null) và $categories (PDOStatement) từ Controller.
  */
 
-$product = $product ?? null;               // null = đang thêm mới, có giá trị = đang sửa
-$isEdit  = $product !== null;
-
-$id          = $product['id']          ?? '';
-$name        = $product['name']        ?? '';
-$category    = $product['category']    ?? '';
-$price       = $product['price']       ?? '';
-$stock       = $product['stock']       ?? '';
-$description = $product['description'] ?? '';
-$status      = $product['status']      ?? 'active';
+$isEdit = isset($product) && $product !== null;
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -86,48 +73,55 @@ $status      = $product['status']      ?? 'active';
                 <form method="post" action="?action=<?= $isEdit ? 'admin_product_update' : 'admin_product_store' ?>" enctype="multipart/form-data">
 
                     <?php if ($isEdit): ?>
-                        <input type="hidden" name="id" value="<?= $id ?>">
+                        <input type="hidden" name="id" value="<?= $product['id'] ?>">
                     <?php endif; ?>
 
                     <div class="row g-3">
 
                         <div class="col-md-8">
                             <label class="form-label">Tên sản phẩm</label>
-                            <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($name) ?>" required>
+                            <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($product['name'] ?? '') ?>" required>
                         </div>
 
                         <div class="col-md-4">
                             <label class="form-label">Danh mục</label>
-                            <select name="category" class="form-select" required>
+                            <select name="category_id" class="form-select" required>
                                 <option value="">-- Chọn danh mục --</option>
-                                <?php foreach (['Cá', 'Tôm', 'Mực', 'Cua', 'Ốc'] as $cat): ?>
-                                    <option value="<?= $cat ?>" <?= $category === $cat ? 'selected' : '' ?>><?= $cat ?></option>
+                                <?php foreach ($categories as $cat): ?>
+                                    <option value="<?= $cat['id'] ?>" <?= (isset($product['category_id']) && $product['category_id'] == $cat['id']) ? 'selected' : '' ?>>
+                                        <?= htmlspecialchars($cat['name']) ?>
+                                    </option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
 
                         <div class="col-md-4">
-                            <label class="form-label">Giá bán (đ)</label>
-                            <input type="number" name="price" class="form-control" min="0" step="1000" value="<?= $price ?>" required>
+                            <label class="form-label">Giá gốc (đ)</label>
+                            <input type="number" name="price" class="form-control" min="0" step="1" value="<?= $product['price'] ?? '' ?>" required>
                         </div>
 
                         <div class="col-md-4">
-                            <label class="form-label">Số lượng tồn kho</label>
-                            <input type="number" name="stock" class="form-control" min="0" value="<?= $stock ?>" required>
+                            <label class="form-label">Giá khuyến mãi (đ)</label>
+                            <input type="number" name="sale_price" class="form-control" min="0" step="1" value="<?= $product['sale_price'] ?? '' ?>">
                         </div>
 
                         <div class="col-md-4">
                             <label class="form-label">Trạng thái</label>
                             <select name="status" class="form-select">
-                                <option value="active" <?= $status === 'active' ? 'selected' : '' ?>>Đang bán</option>
-                                <option value="hidden" <?= $status === 'hidden' ? 'selected' : '' ?>>Đang ẩn</option>
-                                <option value="out_of_stock" <?= $status === 'out_of_stock' ? 'selected' : '' ?>>Hết hàng</option>
+                                <?php $status = $product['status'] ?? 'Còn hàng'; ?>
+                                <option value="Còn hàng" <?= $status === 'Còn hàng' ? 'selected' : '' ?>>Còn hàng</option>
+                                <option value="Hết hàng" <?= $status === 'Hết hàng' ? 'selected' : '' ?>>Hết hàng</option>
                             </select>
                         </div>
 
                         <div class="col-12">
-                            <label class="form-label">Mô tả sản phẩm</label>
-                            <textarea name="description" class="form-control" rows="4"><?= htmlspecialchars($description) ?></textarea>
+                            <label class="form-label">Mô tả ngắn</label>
+                            <textarea name="description" class="form-control" rows="2"><?= htmlspecialchars($product['description'] ?? '') ?></textarea>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Nội dung chi tiết</label>
+                            <textarea name="content" class="form-control" rows="4"><?= htmlspecialchars($product['content'] ?? '') ?></textarea>
                         </div>
 
                         <div class="col-12">

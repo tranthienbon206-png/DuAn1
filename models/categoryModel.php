@@ -1,48 +1,68 @@
 <?php
-require_once __DIR__ . '/databaseModel.php';
 
-class categoryModel
+class CategoryModel
 {
-    private $conn;
+    private $db;
 
-    public function __construct()
+    public function __construct($db)
     {
-        $db = new DatabaseModel();
-        $this->conn = $db->connect();
+        $this->db = $db;
     }
 
+    // Danh sách danh mục, kèm số sản phẩm mỗi danh mục
     public function getAll()
     {
-        try {
-            $sql = "SELECT c.*, (SELECT COUNT(*) FROM products p WHERE p.category_id = c.id) AS productCount FROM categories c ORDER BY id DESC";
-            $stmt = $this->conn->query($sql);
-            $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            // Normalize status to 'active'|'hidden' for views
-            foreach ($rows as &$r) {
-                if (isset($r['status'])) {
-                    $r['status'] = (int)$r['status'] === 1 ? 'active' : 'hidden';
-                }
-            }
-            return $rows;
-        } catch (PDOException $e) {
-            return [];
+        $sql = "SELECT c.*, (SELECT COUNT(*) FROM products p WHERE p.category_id = c.id) AS productCount
+                FROM categories c
+                ORDER BY c.id DESC";
+        $stmt = $this->db->query($sql);
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Đổi status số (1/0) sang chữ cho view dễ dùng
+        foreach ($rows as &$r) {
+            $r['status'] = ((int) $r['status'] === 1) ? 'active' : 'hidden';
         }
+
+        return $rows;
     }
 
-    public function themMoi($name, $status)
+    public function find($id)
     {
-        // Database expects integer status (1=active,0=hidden)
-        $statusInt = 1;
-        if (is_numeric($status)) {
-            $statusInt = (int)$status;
-        } else {
-            $statusInt = ($status === 'active') ? 1 : 0;
+        $sql = "SELECT * FROM categories WHERE id = $id";
+        $stmt = $this->db->query($sql);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($row) {
+            $row['status'] = ((int) $row['status'] === 1) ? 'active' : 'hidden';
         }
 
+        return $row;
+    }
+
+    public function create($name, $status)
+    {
+        $statusInt = ($status === 'active') ? 1 : 0;
+
         $sql = "INSERT INTO categories (name, status) VALUES (?, ?)";
-        $stmt = $this->conn->prepare($sql);
+        $stmt = $this->db->prepare($sql);
+
         return $stmt->execute([$name, $statusInt]);
     }
 
+    public function update($id, $name, $status)
+    {
+        $statusInt = ($status === 'active') ? 1 : 0;
 
+        $sql = "UPDATE categories SET name = ?, status = ? WHERE id = ?";
+        $stmt = $this->db->prepare($sql);
+
+        return $stmt->execute([$name, $statusInt, $id]);
+    }
+
+    public function delete($id)
+    {
+        $sql = "DELETE FROM categories WHERE id = $id";
+
+        return $this->db->exec($sql);
+    }
 }

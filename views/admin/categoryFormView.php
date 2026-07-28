@@ -1,9 +1,6 @@
 <?php
 
-/**
- * FORM THÊM / SỬA DANH MỤC (ADMIN)
- * File này CHỈ LÀ GIAO DIỆN (view). Chưa nối dữ liệu / xử lý lưu thật.
- */
+
 
 $category = $category ?? null;
 $isEdit   = $category !== null;
@@ -36,7 +33,7 @@ $status = $category['status'] ?? 'active';
                         <i class="bi bi-speedometer2 me-2"></i> Dashboard
                     </a>
                 </li>
-                 <li class="nav-item">
+                <li class="nav-item">
                     <a href="?action=admin_categories" class="nav-link active">
                         <i class="bi bi-tags me-2"></i> Danh mục
                     </a>
@@ -46,7 +43,7 @@ $status = $category['status'] ?? 'active';
                         <i class="bi bi-box-seam me-2"></i> Sản phẩm
                     </a>
                 </li>
-               
+
                 <li class="nav-item">
                     <a href="?action=admin_orders" class="nav-link link-dark">
                         <i class="bi bi-receipt me-2"></i> Đơn hàng
@@ -76,11 +73,11 @@ $status = $category['status'] ?? 'active';
             </div>
 
             <div class="card shadow-sm p-4" style="max-width: 600px;">
-                <form method="post" action="?action=admin_category_add">
+                <form method="post" action="?action=<?= $isEdit ? 'admin_category_edit' : 'admin_category_add' ?>&id=<?= $id ?>">
 
                     <div class="mb-3">
                         <label class="form-label">Tên danh mục</label>
-                        <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($name) ?>" >
+                        <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($name) ?>">
                     </div>
 
                     <div class="mb-3">

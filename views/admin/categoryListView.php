@@ -2,7 +2,7 @@
 
 /**
  * DANH SÁCH DANH MỤC (ADMIN)
- * Nhận $result (PDOStatement) từ AdminCategoryController::index()
+ * Nhận $categories (mảng) từ AdminCategoryController::index()
  */
 
 // $categories = $categories ?? [
@@ -37,7 +37,7 @@
                         <i class="bi bi-speedometer2 me-2"></i> Dashboard
                     </a>
                 </li>
-                 <li class="nav-item">
+                <li class="nav-item">
                     <a href="?action=admin_categories" class="nav-link active">
                         <i class="bi bi-tags me-2"></i> Danh mục
                     </a>
@@ -47,7 +47,7 @@
                         <i class="bi bi-box-seam me-2"></i> Sản phẩm
                     </a>
                 </li>
-               
+
                 <li class="nav-item">
                     <a href="?action=admin_orders" class="nav-link link-dark">
                         <i class="bi bi-receipt me-2"></i> Đơn hàng
@@ -85,15 +85,16 @@
                                 <th>#</th>
                                 <th>Tên danh mục</th>
                                 <th>Trạng thái</th>
+                                <th class="text-end">Thao tác</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if ($result->rowCount() === 0): ?>
+                            <?php if (empty($categories)): ?>
                                 <tr>
                                     <td colspan="4" class="text-center text-muted py-4">Chưa có danh mục nào.</td>
                                 </tr>
                             <?php else: ?>
-                                <?php while ($cat = $result->fetch(PDO::FETCH_ASSOC)): ?>
+                                <?php foreach ($categories as $cat): ?>
                                     <tr>
                                         <td>#<?= $cat['id'] ?></td>
                                         <td><?= htmlspecialchars($cat['name']) ?></td>
@@ -101,6 +102,16 @@
                                             <span class="badge <?= $cat['status'] === 'active' ? 'bg-success' : 'bg-secondary' ?>">
                                                 <?= $cat['status'] === 'active' ? 'Đang hiện' : 'Đang ẩn' ?>
                                             </span>
+                                        </td>
+                                        <td class="text-end">
+                                            <a href="?action=admin_category_edit&id=<?= $cat['id'] ?>"
+                                                class="btn btn-sm btn-outline-primary" title="Sửa">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </a>
+                                            <button type="button" class="btn btn-sm btn-outline-danger" title="Xóa"
+                                                data-bs-toggle="modal" data-bs-target="#deleteCat<?= $cat['id'] ?>">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
                                         </td>
                                     </tr>
 
@@ -123,7 +134,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                <?php endwhile; ?>
+                                <?php endforeach; ?>
                             <?php endif; ?>
                         </tbody>
                     </table>
