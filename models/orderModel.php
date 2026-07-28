@@ -3,12 +3,12 @@ require_once __DIR__ . '/databaseModel.php';
 
 class orderModel
 {
-    private $conn;
+    private $conn; //thuộc tính conn
     
-    public function __construct()
+    public function __construct() //hàm khởi tạo khi có biến tạo mới từ 1 class
     {
-        $db = new DatabaseModel();
-        $this->conn = $db->connect();
+        $db = new DatabaseModel(); //biến tạo mới từ 1 class
+        $this->conn = $db->connect(); 
     }
 
     public function getAll()

@@ -76,15 +76,11 @@ $status = $category['status'] ?? 'active';
             </div>
 
             <div class="card shadow-sm p-4" style="max-width: 600px;">
-                <form method="post" action="?action=<?= $isEdit ? 'admin_category_update' : 'admin_category_store' ?>">
-
-                    <?php if ($isEdit): ?>
-                        <input type="hidden" name="id" value="<?= $id ?>">
-                    <?php endif; ?>
+                <form method="post" action="?action=admin_category_add">
 
                     <div class="mb-3">
                         <label class="form-label">Tên danh mục</label>
-                        <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($name) ?>" required>
+                        <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($name) ?>" >
                     </div>
 
                     <div class="mb-3">

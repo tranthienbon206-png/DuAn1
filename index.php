@@ -77,15 +77,16 @@ switch ($page) {
         $controller->index();
         break;
     case 'admin_categories':
-        include 'views/admin/categoryListView.php';
+        require_once 'controllers/admin/categoryController.php';
+        $controller = new AdminCategoryController();
+        $controller->index();
         break;
     case 'admin_category_add':
-        include 'views/admin/categoryFormView.php';
+        require_once 'controllers/admin/categoryController.php';
+        $controller = new AdminCategoryController();
+        $controller->create();
         break;
-    case 'admin_category_edit':
-        // sau này: lấy danh mục theo $_GET['id'] từ DB rồi gán vào $category trước khi include
-        include 'views/admin/categoryFormView.php';
-        break;
+    
     case 'admin_users':
         include 'views/admin/userListView.php';
         break;
