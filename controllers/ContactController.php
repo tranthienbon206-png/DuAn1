@@ -1,7 +1,7 @@
 <?php
 
-class contactController {
-    public function index() {
+class ContactController {
+    public function viewContact() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $fullName = trim($_POST['full_name'] ?? '');
             $email = trim($_POST['email'] ?? '');
