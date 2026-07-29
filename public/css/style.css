@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+    --rose: #9c4a5c;
+    --rose-dark: #6e2f3c;
+    --blush: #f7ece9;
+    --cream: #fbf8f5;
+    --ink: #2b2420;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--cream);
+    color: var(--ink);
+}
+
+h1, h2, h3, .brand-font {
+    font-family: 'Playfair Display', serif;
+}
+
+/* ===== Danh mục nổi bật (thay ảnh ngẫu nhiên bằng khối màu) ===== */
+.category-card {
+    display: block;
+    text-decoration: none;
+    background: var(--blush);
+    border-radius: 12px;
+    padding: 2.5rem 1rem;
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    height: 100%;
+}
+
+.category-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(156, 74, 92, 0.15);
+}
+
+.category-card h5 {
+    color: var(--rose-dark);
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.category-card small {
+    color: #8a7f78;
+}
+
+/* ===== Nút và giá ===== */
+.btn-dark {
+    background-color: var(--rose-dark);
+    border-color: var(--rose-dark);
+}
+
+.btn-dark:hover {
+    background-color: var(--rose);
+    border-color: var(--rose);
+}
+
+.btn-outline-danger,
+.text-danger {
+    color: var(--rose-dark) !important;
+}
+
+.btn-outline-danger {
+    border-color: var(--rose-dark);
+}
+
+.btn-outline-danger:hover {
+    background-color: var(--rose-dark);
+    border-color: var(--rose-dark);
+}
+
+/* ===== Hero banner: thêm chữ đè lên ảnh ===== */
+.hero-caption {
+    position: absolute;
+    bottom: 3rem;
+    left: 3rem;
+    color: #fff;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* ===== Promotion banner ===== */
+.bg-dark {
+    background-color: var(--rose-dark) !important;
+}/* ===== Lưới danh mục tự canh giữa, không bị lẻ dòng ===== */
+.category-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.category-grid > div {
+    flex: 0 1 240px;
+}

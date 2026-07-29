@@ -26,7 +26,8 @@ switch ($page) {
     // ===========================
 
     case 'home':
-        (new HomeController())->viewHome();
+        $controller = new HomeController($connection);
+        $controller->viewHome();
         break;
 
     case 'product':

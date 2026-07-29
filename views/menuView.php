@@ -7,7 +7,15 @@ function active($name)
     return $action == $name ? 'active' : '';
 }
 
-$isLoggedIn = isset($_SESSION['user']);
+// Kiểm tra đăng nhập, dùng chung cho toàn bộ menu
+$isLoggedIn = isset($_SESSION['user']['id']);
+
+// Lấy danh mục cho menu, dùng chung cho mọi trang
+global $connection;
+if (!isset($categories)) {
+    $categoryModel = new CategoryModel($connection);
+    $categories = $categoryModel->getAll();
+}
 ?>
 
 <!DOCTYPE html>
@@ -23,6 +31,9 @@ $isLoggedIn = isset($_SESSION['user']);
 
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <!-- Style riêng của shop -->
+    <link href="public/css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -82,23 +93,21 @@ $isLoggedIn = isset($_SESSION['user']);
                         <a class="nav-link dropdown-toggle"
                             href="#"
                             data-bs-toggle="dropdown">
-                            Categories
+                            Danh mục
                         </a>
 
                         <ul class="dropdown-menu">
-
-                            <!-- Sau này lấy từ SQL -->
-                            <li><a class="dropdown-item" href="#">Dress</a></li>
-                            <li><a class="dropdown-item" href="#">Shirt</a></li>
-                            <li><a class="dropdown-item" href="#">Skirt</a></li>
-                            <li><a class="dropdown-item" href="#">Jeans</a></li>
-
+                            <?php if (!empty($categories)): ?>
+                                <?php foreach ($categories as $cat): ?>
+                                    <li>
+                                        <a class="dropdown-item" href="?action=product&category_id=<?= $cat['id'] ?>">
+                                            <?= htmlspecialchars($cat['name']) ?>
+                                        </a>
+                                    </li>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </ul>
 
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link <?= active('sale') ?>" href="?action=sale">Sale</a>
                     </li>
 
                     <li class="nav-item">
@@ -108,12 +117,12 @@ $isLoggedIn = isset($_SESSION['user']);
                 </ul>
 
                 <!-- Search -->
-                <form class="d-flex me-3">
-
+                <form class="d-flex me-3" action="index.php" method="get">
+                    <input type="hidden" name="action" value="product">
                     <input class="form-control"
                         type="search"
+                        name="keyword"
                         placeholder="Search...">
-
                 </form>
 
                 <!-- Icons -->
