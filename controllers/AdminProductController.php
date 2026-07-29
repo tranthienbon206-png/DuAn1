@@ -65,6 +65,16 @@ class AdminProductController
     {
         $productModel = new ProductModel($this->db);
 
+        // Lấy sản phẩm hiện tại để biết ảnh cũ (phòng khi không upload ảnh mới)
+        $oldProduct = $productModel->find($_POST['id']);
+        $image = $oldProduct['image'] ?? '';
+
+        // Nếu có chọn ảnh mới thì mới ghi đè
+        if (!empty($_FILES['image']['name'])) {
+            $image = time() . '_' . $_FILES['image']['name'];
+            move_uploaded_file($_FILES['image']['tmp_name'], 'public/uploads/' . $image);
+        }
+
         $productModel->update(
             $_POST['id'],
             $_POST['name'],
@@ -73,7 +83,8 @@ class AdminProductController
             $_POST['sale_price'],
             $_POST['description'],
             $_POST['content'],
-            $_POST['status']
+            $_POST['status'],
+            $image
         );
 
         header('Location: ?action=admin_products');
