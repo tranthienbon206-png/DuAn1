@@ -88,7 +88,7 @@
 
             <!-- Tóm tắt đơn hàng -->
             <div class="col-lg-4">
-                <div class="card shadow-sm border-0 sticky-top" style="top: 20px;">
+                <div class="card shadow-sm border-0 " style="top: 20px;">
                     <div class="card-body p-4">
                         <h5 class="card-title fw-bold mb-4">Tóm tắt đơn hàng</h5>
 
