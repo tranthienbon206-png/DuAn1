@@ -1,17 +1,9 @@
-<?php
-// $cartItems và $total được CartController truyền vào trước khi require file này
-?>
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giỏ hàng</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-</head>
+
+
 <body class="bg-light">
-<?php include 'views/headerView.php'; ?>
+
+<?php require __DIR__ . '/menuView.php'; ?>
+
 <div class="container py-5">
     <h2 class="mb-4 fw-bold"><i class="bi bi-cart3 me-2"></i>Giỏ hàng của bạn</h2>
 
@@ -37,7 +29,7 @@
                                 <tr>
                                     <th class="ps-3">Sản phẩm</th>
                                     <th class="text-center">Đơn giá</th>
-                                    <th class="text-center" style="width:140px">Số lượng</th>
+                                    <th class="text-center" style="width:130px">Số lượng</th>
                                     <th class="text-end">Thành tiền</th>
                                     <th class="text-center"></th>
                                 </tr>
@@ -58,14 +50,16 @@
                                         <?= number_format($item['price']) ?>đ
                                     </td>
                                     <td class="text-center">
-                                        <form action="index.php?action=cart_update" method="POST" class="d-inline">
+                                        <form action="index.php?action=cart_update" method="POST" class="d-inline cart-qty-form">
                                             <input type="hidden" name="cart_id" value="<?= $item['cart_id'] ?>">
-                                            <div class="input-group input-group-sm">
+                                            <div class="input-group input-group-sm justify-content-center" style="width:110px; margin:0 auto;">
+                                                <button type="button" class="btn btn-outline-secondary btn-qty-minus">
+                                                    <i class="bi bi-dash"></i>
+                                                </button>
                                                 <input type="number" name="qty" value="<?= $item['quantity'] ?>"
-                                                       min="1" class="form-control text-center"
-                                                       onchange="this.form.submit()">
-                                                <button type="submit" class="btn btn-outline-secondary">
-                                                    <i class="bi bi-arrow-repeat"></i>
+                                                       min="1" class="form-control text-center px-0" readonly>
+                                                <button type="button" class="btn btn-outline-secondary btn-qty-plus">
+                                                    <i class="bi bi-plus"></i>
                                                 </button>
                                             </div>
                                         </form>
@@ -122,6 +116,28 @@
 
     <?php endif; ?>
 </div>
-<?php include 'views/footerView.php'; ?>
+<?php require __DIR__ . '/footerView.php'; ?>
+<script>
+document.querySelectorAll('.cart-qty-form').forEach(function (form) {
+    const input = form.querySelector('input[name="qty"]');
+    const minusBtn = form.querySelector('.btn-qty-minus');
+    const plusBtn = form.querySelector('.btn-qty-plus');
+
+    minusBtn.addEventListener('click', function () {
+        let val = parseInt(input.value, 10);
+        if (val > 1) {
+            input.value = val - 1;
+            form.submit();
+        }
+        // Nếu val == 1, bấm trừ sẽ không làm gì. Muốn bỏ sản phẩm thì dùng nút Xóa.
+    });
+
+    plusBtn.addEventListener('click', function () {
+        let val = parseInt(input.value, 10);
+        input.value = val + 1;
+        form.submit();
+    });
+});
+</script>
+
 </body>
-</html>
