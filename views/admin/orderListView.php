@@ -113,7 +113,7 @@ function formatMoney($number)
                                 <th>Khách hàng</th>
                                 <th>Ngày đặt</th>
                                 <th>Tổng tiền</th>
-                                <th>Trạng thái</th>
+                                <!-- <th>Trạng thái</th> -->
                                 <th class="text-end">Thao tác</th>
                             </tr>
                         </thead>
@@ -130,19 +130,19 @@ function formatMoney($number)
                                     $total = $order['total'] ?? $order['total_amount'] ?? $order['amount'] ?? 0;
                                     $statusKey = strtolower((string) ($order['status'] ?? 'processing'));
 
-                                    $statusLabel = match ($statusKey) {
-                                        'delivered', 'completed', 'done', 'success' => ['Đã giao', 'bg-success'],
-                                        'cancelled', 'canceled', 'rejected' => ['Đã hủy', 'bg-danger'],
-                                        'processing', 'pending', 'waiting', 'shipping' => ['Đang xử lý', 'bg-warning text-dark'],
-                                        default => ['Không rõ', 'bg-secondary'],
-                                    };
+                                    // $statusLabel = match ($statusKey) {
+                                    //     'delivered', 'completed', 'done', 'success' => ['Đã giao', 'bg-success'],
+                                    //     'cancelled', 'canceled', 'rejected' => ['Đã hủy', 'bg-danger'],
+                                    //     'processing', 'pending', 'waiting', 'shipping' => ['Đang xử lý', 'bg-warning text-dark'],
+                                    //     default => ['Không rõ', 'bg-secondary'],
+                                    // };
                                     ?>
                                     <tr>
                                         <td>#<?= $order['id'] ?></td>
                                         <td><?= htmlspecialchars($customer) ?></td>
                                         <td><?= htmlspecialchars($orderDate) ?></td>
                                         <td><?= formatMoney($total) ?></td>
-                                        <td><span class="badge <?= $statusLabel[1] ?>"><?= $statusLabel[0] ?></span></td>
+                                        <!-- -->
                                         <td class="text-end">
                                             <a href="?action=admin_order_detail&id=<?= $order['id'] ?>"
                                                 class="btn btn-sm btn-outline-primary" title="Xem chi tiết">

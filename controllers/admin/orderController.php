@@ -10,4 +10,11 @@ class AdminOrderController
 
 		include __DIR__ . '/../../views/admin/orderListView.php';
 	}
+
+	public function detail($id)
+	{
+    	$orderModel = new orderModel();
+    	$orderDetails = $orderModel->getOrderDetail($id);
+    	include __DIR__ . '/../../views/admin/orderDetailView.php';
+	}
 }

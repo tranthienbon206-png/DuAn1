@@ -46,7 +46,7 @@ switch ($page) {
         $controller->index();
         break;
 
-case 'cart':
+    case 'cart':
         $controller = new CartController($connection);
         $controller->viewCart();
         break;
@@ -66,10 +66,10 @@ case 'cart':
         $controller->removeFromCart();
         break;
 
-    case 'order':
-        $controller = new OrderController($connection);
-        $controller->index();
-        break;
+    // case 'order':
+    //     $controller = new OrderController($connection);
+    //     $controller->index();
+    //     break;
 
     case 'contact':
         $controller = new ContactController($connection);
@@ -139,6 +139,13 @@ case 'cart':
         require_once 'controllers/admin/orderController.php';
         $controller = new AdminOrderController($connection);
         $controller->index();
+        break;
+
+    case 'admin_order_detail':
+        require_once 'controllers/admin/orderController.php';
+        $controller = new AdminOrderController($connection);
+        $id = $_GET['id'] ?? 0;
+        $controller->detail($id);
         break;
 
     case 'admin_categories':
