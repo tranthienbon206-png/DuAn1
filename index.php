@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+require_once 'controllers/AdminUserController.php';
 require_once 'models/categoryModel.php';
 require_once 'controllers/AdminProductController.php';
 require_once 'models/databaseModel.php';
@@ -72,7 +73,7 @@ case 'cart':
 
     case 'contact':
         $controller = new ContactController($connection);
-        $controller->viewContact();
+        $controller->index();
         break;
 
     // ===========================
@@ -162,15 +163,26 @@ case 'cart':
         break;
 
     case 'admin_users':
-        include 'views/admin/userListView.php';
-        break;
-
-    case 'admin_user_edit':
-        include 'views/admin/userFormView.php';
-        $controller = new AdminProductController($connection);
+        $controller = new AdminUserController($connection);
         $controller->index();
         break;
 
+    case 'admin_user_edit':
+        $controller = new AdminUserController($connection);
+        $id = $_GET['id'] ?? 0;
+        $controller->editForm($id);
+        break;
+
+    case 'admin_user_update':
+        $controller = new AdminUserController($connection);
+        $controller->update();
+        break;
+
+    case 'admin_user_delete':
+        $controller = new AdminUserController($connection);
+        $id = $_GET['id'] ?? 0;
+        $controller->delete($id);
+        break;
 
     default:
         echo "<h2>404 - Page Not Found</h2>";

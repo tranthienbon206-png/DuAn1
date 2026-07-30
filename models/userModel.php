@@ -101,4 +101,23 @@ class UserModel
 
         return $stmt->execute([$id]);
     }
+    // ================== DÙNG CHO ADMIN ==================
+
+    // Danh sách toàn bộ người dùng
+    public function getAllAdmin()
+    {
+        $sql = "SELECT * FROM users ORDER BY id DESC";
+        $stmt = $this->db->query($sql);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Cập nhật vai trò + trạng thái (admin sửa)
+    public function updateRoleStatus($id, $role, $status)
+    {
+        $sql = "UPDATE users SET role = ?, status = ? WHERE id = ?";
+        $stmt = $this->db->prepare($sql);
+
+        return $stmt->execute([$role, $status, $id]);
+    }
 }
